@@ -27,7 +27,8 @@
             message_element.textContent = "Reminder started! You will be notified every " + str(interval // 60000) + " minutes."
             setInterval(remind_to_drink, interval)
 
-        document.getElementById("start").bind("click", start_reminder)
+        start_button = document.getElementById("start")
+        start_button.addEventListener("click", start_reminder) 
     </py-script>
 </body>
 </html>
