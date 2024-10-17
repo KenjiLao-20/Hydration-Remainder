@@ -15,20 +15,20 @@
     <p id="message"></p>
 
     <py-script>
-        from js import document, setInterval
+    from js import document, setInterval
+
+    def start_reminder(event):
+        interval = int(document.getElementById("interval").value) * 60 * 1000  # Convert minutes to milliseconds
+        message_element = document.getElementById("message")
+        message_element.textContent = "Reminder started! You will be notified every " + str(interval // 60000) + " minutes."
 
         def remind_to_drink():
-            message_element = document.getElementById("message")
             message_element.textContent = "💧 Time to drink water! Stay hydrated!"
 
-        def start_reminder(event):
-            interval = int(document.getElementById("interval").value) * 60 * 1000  # Convert minutes to milliseconds
-            message_element = document.getElementById("message")
-            message_element.textContent = "Reminder started! You will be notified every " + str(interval // 60000) + " minutes."
-            setInterval(remind_to_drink, interval)
+        setInterval(remind_to_drink, interval)
 
-        start_button = document.getElementById("start")
-        start_button.addEventListener("click", start_reminder) 
+start_button = document.getElementById("start")
+start_button.addEventListener("click", start_reminder)
     </py-script>
 </body>
 </html>
