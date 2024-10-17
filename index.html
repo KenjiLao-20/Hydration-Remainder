@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hydration Reminder</title>
+    <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css">
+    <script defer src="https://pyscript.net/latest/pyscript.js"></script>
+</head>
+<body>
+    <h1>Hydration Reminder</h1>
+    <p>Set your hydration reminder interval (in minutes):</p>
+    <input type="number" id="interval" placeholder="Enter minutes" min="1">
+    <button id="start">Start Reminder</button>
+    <p id="message"></p>
+
+    <py-script>
+        from js import document, setInterval
+
+        def remind_to_drink():
+            message_element = document.getElementById("message")
+            message_element.textContent = "💧 Time to drink water! Stay hydrated!"
+
+        def start_reminder(event):
+            interval = int(document.getElementById("interval").value) * 60 * 1000  # Convert minutes to milliseconds
+            message_element = document.getElementById("message")
+            message_element.textContent = "Reminder started! You will be notified every " + str(interval // 60000) + " minutes."
+            setInterval(remind_to_drink, interval)
+
+        document.getElementById("start").bind("click", start_reminder)
+    </py-script>
+</body>
+</html>
