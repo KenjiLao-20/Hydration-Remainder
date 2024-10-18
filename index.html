@@ -51,10 +51,15 @@
             # Reset the error message display
             error_message.style.display = "none"
 
+            # Check if the input is a valid number and within the acceptable range
+            if minutes == "":
+                error_message.style.display = "block"  # Show error message for empty input
+                return
+            
             try:
                 minutes = int(minutes)
                 if minutes < 0:
-                    error_message.style.display = "block"  # Show error message
+                    error_message.style.display = "block"  # Show error message for negative input
                 else:
                     js.alert(f"Reminder set for {minutes} minutes!")
             except ValueError:
