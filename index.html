@@ -50,7 +50,7 @@
             border-radius: 3px;
             cursor: pointer;
         }
-    </style>
+    </ style>
 </head>
 <body>
     <h1>Hydration Reminder</h1>
@@ -59,30 +59,36 @@
         <input type="number" id="interval" name="interval" required placeholder="Enter interval"> 
         <button id="startReminder" type="submit">Start Reminder</button>
     </form> 
-    <py-script>
-        from pyscript import Element, window
+<py-script>
+    from pyscript import Element
 
-        def start_reminder(event):
-            event.preventDefault()
-            try:
-                interval = int(Element("interval").element.value)
-            except ValueError:
-                Element("error").element.innerHTML = "Please enter a valid interval."
-                return
+    def start_reminder(event):
+        event.preventDefault()
+        try:
+            interval = int(Element("interval").element.value)
+        except ValueError:
+            Element("error").element.innerHTML = "Please enter a valid interval."
+            return
 
-            if interval < 1:
-                Element("error").element.innerHTML = "Interval must be at least 1 minute."
-                return
+        if interval < 1:
+            Element("error").element.innerHTML = "Interval must be at least 1 minute."
+            return
 
-            # Start the hydration reminder
-            Element("result").element.innerHTML = f"Hydration reminder set for every {interval} minutes."
-            Element("result").element.style.display = "block"
-            
-            # Show notification pop-up
-            window.alert("Drink Some Water! Stay Hydrated!")
+        # Start the hydration reminder
+        Element("result").element.innerHTML = f"Hydration reminder set for every {interval} minutes."
+        Element("result").element.style.display = "block"
+        
+        # Show notification pop-up
+        Element("show_alert").element("Drink Some Water! Stay Hydrated!")
 
-        Element("startReminder").element.onclick = start_reminder
-    </py-script>
+    Element("startReminder").element.onclick = start_reminder
+</py-script>
+
+    <script>
+        function show_alert(message) {
+            alert(message);
+        }
+    </script>
 
     <div id="result" style="display: none;">
         <h2>Hydration Reminder:</h2>
