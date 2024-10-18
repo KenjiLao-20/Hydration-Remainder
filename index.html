@@ -72,6 +72,7 @@
                 else:
                     time_set.innerHTML = minutes  # Set the displayed time in success message
                     success_message.style.display = "block"  # Show success message
+                    js.alert(f"Hydration reminder set on {minutes} minutes.")  # Alert for confirmation
             except ValueError:
                 error_message.style.display = "block"  # Show error message for invalid input
     </py-script>
