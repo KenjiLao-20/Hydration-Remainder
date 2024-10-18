@@ -42,33 +42,23 @@
         <button id="stop" disabled>Stop Reminder</button>
     </div>
     
-    <py-script>
-        from pyscript import Element
-        import time
-        import threading
-        import pyscript
+     <py-script>
+    import asyncio
+    import js
 
-        await pyscript.ready()
+    async def remind():
+      while True:
+        await asyncio.sleep(int(js.document.getElementById('interval').value) * 60)
+        alert("Time to drink some water!")
 
-        def remind(interval):
-            while True:
-                time.sleep(interval * 60)  # Convert minutes to seconds
-                Element("message").element.innerText = "Time to drink water! 💧"
+    def start_reminder():
+      asyncio.ensure_future(remind())
 
-        def start_reminder(event):
-            interval = int(Element("interval").element.value)
-            if interval > 0:
-                threading.Thread(target=remind, args=(interval,), daemon=True).start()
-                Element("start").element.disabled = True
-                Element("stop").element.disabled = False
+    def stop_reminder():
+      # TODO: Implement stopping the reminder
 
-        def stop_reminder(event):
-            Element("message").element.innerText = "Stay hydrated!"
-            Element("start").element.disabled = False
-            Element("stop").element.disabled = True
-
-        Element("start").element.bind("click", start_reminder)
-        Element("stop").element.bind("click", stop_reminder)
-    </py-script>
+    js.document.getElementById('start').addEventListener('click', start_reminder)
+    js.document.getElementById('stop').addEventListener('click', stop_reminder)
+  </py-script>
 </body>
 </html>
