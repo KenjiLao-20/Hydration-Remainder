@@ -59,8 +59,8 @@
         <input type="number" id="interval" name="interval" required placeholder="Enter interval"> 
         <button id="startReminder" type="submit">Start Reminder</button>
     </form> 
-    <py-script >
-        from pyscript import Element
+    <py-script>
+        from pyscript import Element, window
 
         def start_reminder(event):
             event.preventDefault()
@@ -77,6 +77,9 @@
             # Start the hydration reminder
             Element("result").element.innerHTML = f"Hydration reminder set for every {interval} minutes."
             Element("result").element.style.display = "block"
+            
+            # Show notification pop-up
+            window.alert("Drink Some Water! Stay Hydrated!")
 
         Element("startReminder").element.onclick = start_reminder
     </py-script>
