@@ -46,6 +46,9 @@
         from pyscript import Element
         import time
         import threading
+        import pyscript
+
+        await pyscript.ready()
 
         def remind(interval):
             while True:
