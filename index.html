@@ -50,18 +50,20 @@
       import time
       import js
       
-      def show_notification():
-        js.Notification.requestPermission().then(
+  def show_notification():
+      js.Notification.requestPermission().then(
           lambda permission:
           js.Notification('Drink some Water! Stay Hydrated!', {
-            body: 'Remember to drink water!',
-            icon: 'https://example.com/icon.png', // Replace with your icon URL
+              'body': 'Remember to drink water!',
+              'icon': 'https://example.com/icon.png',  # Replace with your icon URL
           }).show()
+        )
+      
         ) def start_reminder(event):
         event.preventDefault()
         interval = int(Element("interval").element.value)
-        time.sleep(interval * 60)  # Convert minutes to seconds
-        show_notification()
+        # Use setTimeout instead of time.sleep
+        js.setTimeout(lambda: show_notification(), interval * 60000)  # Convert minutes to milliseconds
       
       Element("start-reminder").element.onclick = start_reminder
     </py-script>
