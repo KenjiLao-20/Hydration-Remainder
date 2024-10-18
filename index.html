@@ -4,85 +4,68 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hydration Reminder</title>
-    <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css">
+    <script src="https://pyscript.net/latest/pyscript.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 50px;
+            background-color: #f0f8ff;
+            text-align: center;
+            padding: 50px;
         }
-        .button {
-            background-color: green;
-            color: white;
+
+        .container {
+            background-color: #ffffff;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        input {
+            padding: 10px;
+            margin: 10px;
+            width: 200px;
+        }
+
+        button {
             padding: 10px 20px;
-            border: none;
-            border-radius: 5px;
+            margin: 10px;
             cursor: pointer;
-        }
-        .button:hover {
-            background-color: darkgreen;
-        }
-        .error {
-            color: red;
-            margin-top: 10px;
-            display: none; /* Initially hidden */
-        }
-        .success {
-            color: green;
-            margin-top: 10px;
-            display: none; /* Initially hidden */
         }
     </style>
 </head>
 <body>
-
-    <h1 style="font-weight: bold;">Hydration Reminder</h1>
-    <p>Set your Hydration Reminder</p>
+    <div class="container">
+        <h1>Hydration Reminder</h1>
+        <p id="message">Stay hydrated!</p>
+        <input type="number" id="interval" placeholder="Set interval (minutes)" min="1">
+        <button id="start">Start Reminder</button>
+        <button id="stop" disabled>Stop Reminder</button>
+    </div>
     
-    <form id="reminderForm">
-        <input type="number" id="minutes" placeholder="Enter Minutes" required>
-        <button type="button" class="button" onclick="startReminder()">Start Reminder</button>
-        <p id="errorMessage" class="error">Invalid input! Only numbers 1 and above.</p> <!-- Error message -->
-        <p id="successMessage" class="success">Hydration reminder set on <span id="timeSet"></span> minutes.</p> <!-- Success message -->
-    </form>
-
     <py-script>
-from pyscript import Element
+        from pyscript import Element
+        import time
+        import threading
 
-def startReminder():
-    # Get the input value
-    minutes = Element("minutes").element.value
-    # Get message elements
-    error_message = Element("errorMessage")
-    success_message = Element("successMessage")
-    time_set = Element("timeSet")
+        def remind(interval):
+            while True:
+                time.sleep(interval * 60)  # Convert minutes to seconds
+                Element("message").element.innerText = "Time to drink water! 💧"
 
-    # Reset messages
-    error_message.element.style.display = "none"
-    success_message.element.style.display = "none"
+        def start_reminder(event):
+            interval = int(Element("interval").element.value)
+            if interval > 0:
+                threading.Thread(target=remind, args=(interval,), daemon=True).start()
+                Element("start").element.disabled = True
+                Element("stop").element.disabled = False
 
-    # Validate input
-    if minutes == "":
-        error_message.element.innerHTML = "Invalid input! Please enter a number."
-        error_message.element.style.display = "block"
-        return
-    
-    try:
-        minutes = int(minutes)
-        if minutes <= 0:  # Check for 0 and negative input
-            error_message.element.innerHTML = "Invalid input! Only numbers 1 and above."
-            error_message.element.style.display = "block"  # Show error message for invalid input
-        else:
-            time_set.element.innerHTML = minutes  # Set the displayed time in success message
-            success_message.element.style.display = "block"  # Show success message
-    except ValueError:
-        error_message.element.innerHTML = "Invalid input! Please enter a valid number."
-        error_message.element.style.display = "block"  # Show error message for invalid input
+        def stop_reminder(event):
+            Element("message").element.innerText = "Stay hydrated!"
+            Element("start").element.disabled = False
+            Element("stop").element.disabled = True
 
+        Element("start").element.bind("click", start_reminder)
+        Element("stop").element.bind("click", stop_reminder)
     </py-script>
-
-    <script src="https://pyscript.net/latest/pyscript.js"></script>
 </body>
 </html>
