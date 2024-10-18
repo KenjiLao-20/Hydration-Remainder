@@ -1,72 +1,51 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Hydration Reminder</title>
-  <meta charset="UTF-8">
-  <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
-  <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
-  <style>
-    body {
-      font-family: sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      background-color: #f0f0f0;
-    }
-
-    .container {
-      background-color: #fff;
-      padding: 30px;
-      border-radius: 5px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    }
-
-    input[type="number"] {
-      width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-      border: 1px solid #ddd;
-      border-radius: 3px;
-    }
-
-    button {
-      background-color: #4CAF50;
-      color: white;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 3px;
-      cursor: pointer;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hydration Reminder</title>
+    <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 50px;
+        }
+        .button {
+            background-color: green;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .button:hover {
+            background-color: darkgreen;
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Hydration Reminder</h1>
-    <p>Set your hydration reminder interval (in minutes):</p>
-    <input type="number" id="interval" placeholder="Enter interval">
-    <button id="start-reminder">Start Reminder</button>
+
+    <h1 style="font-weight: bold;">Hydration Reminder</h1>
+    <p>Set your Hydration Reminder</p>
+    
+    <form id="reminderForm">
+        <input type="number" id="minutes" placeholder="Enter Minutes" required>
+        <button type="button" class="button" onclick="startReminder()">Start Reminder</button>
+    </form>
+
     <py-script>
-      import time
-      import js
-      
-  def show_notification():
-      js.Notification.requestPermission().then(
-          lambda permission:
-          js.Notification('Drink some Water! Stay Hydrated!', {
-              'body': 'Remember to drink water!',
-              'icon': 'https://example.com/icon.png',  # Replace with your icon URL
-          }).show()
-        )
-      
-        ) def start_reminder(event):
-        event.preventDefault()
-        interval = int(Element("interval").element.value)
-        # Use setTimeout instead of time.sleep
-        js.setTimeout(lambda: show_notification(), interval * 60000)  # Convert minutes to milliseconds
-      
-      Element("start-reminder").element.onclick = start_reminder
+        def startReminder():
+            import js
+            minutes = js.document.getElementById("minutes").value
+            if minutes:
+                js.alert(f"Reminder set for {minutes} minutes!")
+            else:
+                js.alert("Please enter a valid number of minutes.")
     </py-script>
-  </div>
+
+    <script src="https://pyscript.net/latest/pyscript.js"></script>
 </body>
 </html>
