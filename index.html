@@ -44,14 +44,16 @@
     <form id="reminderForm">
         <input type="number" id="minutes" placeholder="Enter Minutes" required>
         <button type="button" class="button" onclick="startReminder()">Start Reminder</button>
-        <p id="errorMessage" class="error">Invalid input. Only numbers 1 and above.</p> <!-- Error message -->
+        <p id="errorMessage" class="error">Invalid input! Only numbers 1 and above.</p> <!-- Error message -->
         <p id="successMessage" class="success">Hydration reminder set on <span id="timeSet"></span> minutes.</p> <!-- Success message -->
     </form>
 
     <py-script>
         def startReminder():
             import js
+            # Get the input value
             minutes = js.document.getElementById("minutes").value
+            # Get message elements
             error_message = js.document.getElementById("errorMessage")
             success_message = js.document.getElementById("successMessage")
             time_set = js.document.getElementById("timeSet")
@@ -60,21 +62,19 @@
             error_message.style.display = "none"
             success_message.style.display = "none"
 
-            # Check if the input is a valid number and within the acceptable range
+            # Validate input
             if minutes == "":
                 error_message.style.display = "block"  # Show error message for empty input
-                return
-            
-            try:
-                minutes = int(minutes)
-                if minutes <= 0:  # Check for 0 and negative input
+            else:
+                try:
+                    minutes = int(minutes)
+                    if minutes <= 0:  # Check for 0 and negative input
+                        error_message.style.display = "block"  # Show error message for invalid input
+                    else:
+                        time_set.innerHTML = minutes  # Set the displayed time in success message
+                        success_message.style.display = "block"  # Show success message
+                except ValueError:
                     error_message.style.display = "block"  # Show error message for invalid input
-                else:
-                    time_set.innerHTML = minutes  # Set the displayed time in success message
-                    success_message.style.display = "block"  # Show success message
-                    js.alert(f"Hydration reminder set on {minutes} minutes.")  # Alert for confirmation
-            except ValueError:
-                error_message.style.display = "block"  # Show error message for invalid input
     </py-script>
 
     <script src="https://pyscript.net/latest/pyscript.js"></script>
