@@ -1,99 +1,70 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hydration Reminder</title>
-    <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
-    <script defer src="https://pyscript.net/latest/pyscript.js"></script>
-    <style>
-        body {
-            font-family: sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            background-color: #f0f0f0;
-        }
+  <title>Hydration Reminder</title>
+  <meta charset="UTF-8">
+  <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+  <link rel="stylesheet" href="https://pyscript.net/alpha/pyscript.css" />
+  <style>
+    body {
+      font-family: sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #f0f0f0;
+    }
 
-        h1 {
-            color: #333;
-        }
+    .container {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
 
-        form {
-            display: flex;
-            flex-direction: column;
-            width: 300px;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            background-color: #fff;
-        }
+    input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ddd;
+      border-radius: 3px;
+    }
 
-        label {
-            margin-bottom: 5px;
-        }
-
-        input[type="number"] {
-            padding: 8px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 3px;
-        }
-
-        button[type="submit"] {
-            padding: 10px 15px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 3px;
-            cursor: pointer;
-        }
-    </ style>
+    button {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+  </style>
 </head>
 <body>
+  <div class="container">
     <h1>Hydration Reminder</h1>
-    <form id="hydrationForm">
-        <label for="interval">Set your hydration reminder interval (in minutes):</label>
-        <input type="number" id="interval" name="interval" required placeholder="Enter interval"> 
-        <button id="startReminder" type="submit">Start Reminder</button>
-    </form> 
-<py-script> from pyscript import Element
-
-    def start_reminder(event):
+    <p>Set your hydration reminder interval (in minutes):</p>
+    <input type="number" id="interval" placeholder="Enter interval">
+    <button id="start-reminder">Start Reminder</button>
+    <py-script>
+      import time
+      import js
+      
+      def show_notification():
+        js.Notification.requestPermission().then(
+          lambda permission:
+          js.Notification('Drink some Water! Stay Hydrated!', {
+            body: 'Remember to drink water!',
+            icon: 'https://example.com/icon.png', // Replace with your icon URL
+          }).show()
+        ) def start_reminder(event):
         event.preventDefault()
-        try:
-            interval = int(Element("interval").element.value)
-        except ValueError:
-            Element("error").element.innerHTML = "Please enter a valid interval."
-            return
-
-        if interval < 1:
-            Element("error").element.innerHTML = "Interval must be at least 1 minute."
-            return
-
-        # Start the hydration reminder
-        Element("result").element.innerHTML = f"Hydration reminder set for every {interval} minutes."
-        Element("result").element.style.display = "block"
-        
-        # Show notification pop-up
-        Element("show_alert").element.js_function("show_alert", "Drink Some Water! Stay Hydrated!")
-
-    Element("startReminder").element.onclick = start_reminder
-</py-script>
-
-    <script>
-        function show_alert(message) {
-            alert(message);
-        }
-    </script>
-
-    <div id="result" style="display: none;">
-        <h2>Hydration Reminder:</h2>
-        <p id="reminderMessage"></p>
-    </div>
-
-    <p id="error" style="color: red;"></p>
+        interval = int(Element("interval").element.value)
+        time.sleep(interval * 60)  # Convert minutes to seconds
+        show_notification()
+      
+      Element("start-reminder").element.onclick = start_reminder
+    </py-script>
+  </div>
 </body>
 </html>
