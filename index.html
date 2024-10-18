@@ -49,36 +49,37 @@
     </form>
 
     <py-script>
-        from pyscript import Element
+from pyscript import Element
 
-        def startReminder():
-            # Get the input value
-            minutes = Element("minutes").element.value
-            # Get message elements
-            error_message = Element("errorMessage")
-            success_message = Element("successMessage")
-            time_set = Element("timeSet")
+def startReminder():
+    # Get the input value
+    minutes = Element("minutes").element.value
+    # Get message elements
+    error_message = Element("errorMessage")
+    success_message = Element("successMessage")
+    time_set = Element("timeSet")
 
-            # Reset messages
-            error_message.element.style.display = "none"
-            success_message.element.style.display = "none"
+    # Reset messages
+    error_message.element.style.display = "none"
+    success_message.element.style.display = "none"
 
-            # Validate input
-            if minutes == "":
-                error_message.element.innerHTML = "Invalid input! Please enter a number."
-                error_message.element.style.display = "block"
-                return
-            
-            try:
-                minutes = int(minutes)
-                if minutes <= 0:  # Check for 0 and negative input
-                    error_message.element.style.display = "block"  # Show error message for invalid input
-                else:
-                    time_set.element.innerHTML = minutes  # Set the displayed time in success message
-                    success_message.element.style.display = "block"  # Show success message
-            except ValueError:
-                error_message.element.innerHTML = "Invalid input! Please enter a valid number."
-                error_message.element.style.display = "block"  # Show error message for invalid input
+    # Validate input
+    if minutes == "":
+        error_message.element.innerHTML = "Invalid input! Please enter a number."
+        error_message.element.style.display = "block"
+        return
+    
+    try:
+        minutes = int(minutes)
+        if minutes <= 0:  # Check for 0 and negative input
+            error_message.element.innerHTML = "Invalid input! Only numbers 1 and above."
+            error_message.element.style.display = "block"  # Show error message for invalid input
+        else:
+            time_set.element.innerHTML = minutes  # Set the displayed time in success message
+            success_message.element.style.display = "block"  # Show success message
+    except ValueError:
+        error_message.element.innerHTML = "Invalid input! Please enter a valid number."
+        error_message.element.style.display = "block"  # Show error message for invalid input
 
     </py-script>
 
