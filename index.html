@@ -24,6 +24,11 @@
         .button:hover {
             background-color: darkgreen;
         }
+        .error {
+            color: red;
+            margin-top: 10px;
+            display: none; /* Initially hidden */
+        }
     </style>
 </head>
 <body>
@@ -34,16 +39,26 @@
     <form id="reminderForm">
         <input type="number" id="minutes" placeholder="Enter Minutes" required>
         <button type="button" class="button" onclick="startReminder()">Start Reminder</button>
+        <p id="errorMessage" class="error">Invalid Input</p> <!-- Error message -->
     </form>
 
     <py-script>
         def startReminder():
             import js
             minutes = js.document.getElementById("minutes").value
-            if minutes:
-                js.alert(f"Reminder set for {minutes} minutes!")
-            else:
-                js.alert("Please enter a valid number of minutes.")
+            error_message = js.document.getElementById("errorMessage")
+            
+            # Reset the error message display
+            error_message.style.display = "none"
+
+            try:
+                minutes = int(minutes)
+                if minutes < 0:
+                    error_message.style.display = "block"  # Show error message
+                else:
+                    js.alert(f"Reminder set for {minutes} minutes!")
+            except ValueError:
+                error_message.style.display = "block"  # Show error message for invalid input
     </py-script>
 
     <script src="https://pyscript.net/latest/pyscript.js"></script>
