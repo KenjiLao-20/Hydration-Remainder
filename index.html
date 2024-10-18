@@ -59,8 +59,7 @@
         <input type="number" id="interval" name="interval" required placeholder="Enter interval"> 
         <button id="startReminder" type="submit">Start Reminder</button>
     </form> 
-<py-script>
-    from pyscript import Element
+<py-script> from pyscript import Element
 
     def start_reminder(event):
         event.preventDefault()
@@ -79,7 +78,7 @@
         Element("result").element.style.display = "block"
         
         # Show notification pop-up
-        Element("show_alert").element("Drink Some Water! Stay Hydrated!")
+        Element("show_alert").element.js_function("show_alert", "Drink Some Water! Stay Hydrated!")
 
     Element("startReminder").element.onclick = start_reminder
 </py-script>
