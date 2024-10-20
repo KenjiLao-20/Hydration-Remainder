@@ -104,10 +104,10 @@
         }
     </style>
     <script>
-        // JavaScript code for popup
-        function showPopup() {
+        // JavaScript code for the informational popup
+        function showInfoPopup() {
             document.getElementById("popupContent").innerHTML = `
-                <span class="close" onclick="closePopup()">&times;</span>
+                <span class="close" onclick="closeInfoPopup()">&times;</span>
                 How to know your Activity Level?<br>
                 None - No exercise or physical activities today<br>
                 Low Activity Level - 30 minutes of exercise or physical activities today<br>
@@ -117,8 +117,34 @@
             document.getElementById("popup").style.display = "block";
         }
 
-        function closePopup() {
+        function closeInfoPopup() {
             document.getElementById("popup").style.display = "none";
+        }
+
+        // JavaScript code for the hydration reminder popup
+        function showHydrationPopup(message) {
+            document.getElementById("popupContent").innerHTML = `
+                <span class="close" onclick ="closeHydrationPopup()">&times;</span>
+                ${message}
+            `;
+            document.getElementById("hydrationPopup").style.display = "block";
+        }
+
+        function closeHydrationPopup() {
+            document.getElementById("hydrationPopup").style.display = "none";
+        }
+
+        function startHydrationReminders(requiredWater) {
+            const waterPerHour = (requiredWater / 12).toFixed(2);
+            let count = 0;
+            const interval = setInterval(() => {
+                if (count < 12) {
+                    showHydrationPopup(`Drink ${waterPerHour} oz of Water! Stay Hydrated!`);
+                    count++;
+                } else {
+                    clearInterval(interval);
+                }
+            }, 3600000); // 3600000 milliseconds = 1 hour
         }
     </script>
 </head>
@@ -128,7 +154,7 @@
         <label for="weight">Weight (in pounds):</label>
         <input type="number" id="weight" name="weight" required placeholder="Enter Weight">
         
-        <label for="activityLevel">Activity Level: <span class="info-icon" onclick="showPopup()">❓</span></label>
+        <label for="activityLevel">Activity Level: <span class="info-icon" onclick="showInfoPopup()">❓</span></label>
         <select id="activityLevel" name="activityLevel" required>
             <option value="" disabled selected>Select Activity Level</option>
             <option value="none">None</option>
@@ -151,6 +177,12 @@
     <!-- Popup for info -->
     <div id="popup" class="popup">
         <div class="popup-content" id="popupContent">
+        </div>
+    </div>
+
+    <!-- Popup for hydration reminder -->
+    <div id="hydrationPopup" class="popup">
+        <div class="popup-content" id="hydrationPopupContent">
         </div>
     </div>
 
@@ -203,7 +235,9 @@
             # Show result section
             Element("result").element.style.display = "block"
 
+            startHydrationReminders(required_water)
+
         Element("calculateBtn").element.onclick = calculate_hydration
     </py-script>
-</body>
+ </body>
 </html>
