@@ -117,8 +117,7 @@
         <label for="weight">Weight (in pounds):</label>
         <input type="number" id="weight" name="weight" required placeholder="Enter Weight">
         
-        <label for="activityLevel">Activity Level:</label>
-        <span class="info-icon" onclick="showPopup()">❓</span>
+        <label for="activityLevel">Activity Level: <span class="info-icon" onclick="showPopup()">❓</span></label>
         <select id="activityLevel" name="activityLevel" required>
             <option value="" disabled selected>Select Activity Level</option>
             <option value="none">None</option>
@@ -135,12 +134,12 @@
         <p>Required Water Intake: <span id="waterIntake"></span> oz</p>
     </div>
 
-    <p id="error" style="color: red;"></p >
+    <p id="error" style="color: red;"></p>
 
     <!-- Popup for info -->
     <div id="popup" class="popup">
         <div class="popup-content">
-            <span class="close" onclick="closePopup()">&times;</span>
+            <span class="close" onclick=" closePopup()">&times;</span>
             <p>Hello World</p>
         </div>
     </div>
