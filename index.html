@@ -70,6 +70,7 @@
         <label for="activityLevel">Activity Level:</label>
         <select id="activityLevel" name="activityLevel" required>
             <option value="" disabled selected>Select Activity Level</option>
+            <option value="none">None</option>
             <option value="low">Low Activity Level</option>
             <option value="mid">Mid Activity Level</option>
             <option value="high">High Activity Level</option>
@@ -105,18 +106,21 @@
                 return
 
             # Calculate required water intake based on activity level
-            if activity_level == "low":
+            if activity_level == "none":
+                required_water = weight * 0.5  # 0.5 oz per pound for no activity
+            elif activity_level == "low":
                 hydration_time = 30  # 30 minutes
+                required_water = (hydration_time / 60) * 12 * (weight / 2)  # 12 oz per hour, adjust based on weight
             elif activity_level == "mid":
                 hydration_time = 60  # 1 hour
+                required_water = (hydration_time / 60) * 12 * (weight / 2)
             elif activity_level == "high":
                 hydration_time = 90  # 1 hour & 30 minutes
+                required_water = (hydration_time / 60) * 12 * (weight / 2)
             else:
                 Element("error").element.innerHTML = "Please select a valid activity level."
                 return
 
-            # Calculate required water intake in ounces
-            required_water = (hydration_time / 60) * 12 * (weight / 2)  # 12 oz per hour, adjust based on weight
             Element("waterIntake").element.innerHTML = f"{required_water:.2f}"
 
             # Show result section
