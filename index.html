@@ -100,6 +100,16 @@
             color: #fff;
         }
     </style>
+    <script>
+        // JavaScript code for popup
+        function showPopup() {
+            document.getElementById("popup").style.display = "block";
+        }
+
+        function closePopup() {
+            document.getElementById("popup").style.display = "none";
+        }
+    </script>
 </head>
 <body>
     <h1>Hydration Reminder</h1>
@@ -125,7 +135,7 @@
         <p>Required Water Intake: <span id="waterIntake"></span> oz</p>
     </div>
 
-    <p id="error" style="color: red;"></p>
+    <p id="error" style="color: red;"></p >
 
     <!-- Popup for info -->
     <div id="popup" class="popup">
@@ -182,15 +192,6 @@
             Element("result").element.style.display = "block"
 
         Element("calculateBtn").element.onclick = calculate_hydration
-
-        // JavaScript code for popup
-        function showPopup() {
-            document.getElementById("popup").style.display = "block";
-        }
-
-        function closePopup() {
-            document.getElementById("popup").style.display = "none";
-        }
     </py-script>
 </body>
 </html>
