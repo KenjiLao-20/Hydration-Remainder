@@ -103,6 +103,14 @@
     <script>
         // JavaScript code for popup
         function showPopup() {
+            // Set the popup content to display "Hello World" five times
+            document.getElementById("popupContent").innerHTML = `
+                Hello World<br>
+                Hello World<br>
+                Hello World<br>
+                Hello World<br>
+                Hello World
+            `;
             document.getElementById("popup").style.display = "block";
         }
 
@@ -132,15 +140,14 @@
     <div id="result" style="display: none;">
         <h2>Result:</h2>
         <p>Required Water Intake: <span id="waterIntake"></span> oz</p>
-    </div>
+    </div >
 
     <p id="error" style="color: red;"></p>
 
     <!-- Popup for info -->
     <div id="popup" class="popup">
-        <div class="popup-content">
+        <div class="popup-content" id="popupContent">
             <span class="close" onclick=" closePopup()">&times;</span>
-            <p>Hello World</p>
         </div>
     </div>
 
