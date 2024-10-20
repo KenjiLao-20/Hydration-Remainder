@@ -105,29 +105,20 @@
     </style>
     <script>
         // JavaScript code for popup
-        function showPopup(message) {
+        function showPopup() {
             document.getElementById("popupContent").innerHTML = `
                 <span class="close" onclick="closePopup()">&times;</span>
-                ${message}
+                How to know your Activity Level?<br>
+                None - No exercise or physical activities today<br>
+                Low Activity Level - 30 minutes of exercise or physical activities today<br>
+                Moderate Activity Level - 60 minutes of exercise or physical activities today<br>
+                High Activity Level - 90 minutes of exercise or physical activities today
             `;
             document.getElementById("popup").style.display = "block";
         }
 
         function closePopup() {
             document.getElementById("popup").style.display = "none";
-        }
-
-        function startHydrationReminders(requiredWater) {
-            const waterPerHour = (requiredWater / 12).toFixed(2);
-            let count = 0;
-            const interval = setInterval(() => {
-                if (count < 12) {
-                    showPopup(`Drink ${waterPerHour} oz of Water! Stay Hydrated!`);
-                    count++;
-                } else {
-                    clearInterval(interval);
-                }
- }, 60000); // 3600000 milliseconds = 1 hour
         }
     </script>
 </head>
@@ -211,8 +202,6 @@
 
             # Show result section
             Element("result").element.style.display = "block"
-
-            startHydrationReminders(required_water)
 
         Element("calculateBtn").element.onclick = calculate_hydration
     </py-script>
