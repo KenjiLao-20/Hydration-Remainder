@@ -105,18 +105,24 @@
                 Element("error").element.innerHTML = "Please enter a valid input."
                 return
 
-            # Calculate required water intake based on activity level
+            # Base required water intake based on weight
+            base_required_water = weight * 0.5  # 0.5 oz per pound
+
+            # Additional water intake based on activity level
             if activity_level == "none":
-                required_water = weight * 0.5  # 0.5 oz per pound for no activity
+                required_water = base_required_water  # No additional water needed
             elif activity_level == "low":
                 hydration_time = 30  # 30 minutes
-                required_water = (hydration_time / 60) * 12 * (weight / 2)  # 12 oz per hour, adjust based on weight
+                additional_water = (hydration_time / 30) * 12  # 12 oz for every 30 minutes
+                required_water = base_required_water + additional_water
             elif activity_level == "mid":
                 hydration_time = 60  # 1 hour
-                required_water = (hydration_time / 60) * 12 * (weight / 2)
+                additional_water = (hydration_time / 30) * 12
+                required_water = base_required_water + additional_water
             elif activity_level == "high":
                 hydration_time = 90  # 1 hour & 30 minutes
-                required_water = (hydration_time / 60) * 12 * (weight / 2)
+                additional_water = (hydration_time / 30) * 12
+                required_water = base_required_water + additional_water
             else:
                 Element("error").element.innerHTML = "Please select a valid activity level."
                 return
