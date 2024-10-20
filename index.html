@@ -4,67 +4,125 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hydration Reminder</title>
-    <script src="https://pyscript.net/latest/pyscript.js"></script>
+    <link rel="stylesheet" href="https://pyscript.net/latest/pyscript.css" />
+    <script defer src="https://pyscript.net/latest/pyscript.js"></script>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f8ff;
-            text-align: center;
-            padding: 50px;
+            font-family: sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: rgb(36, 37, 37);
         }
 
-        .container {
-            background-color: #ffffff;
-            border-radius: 10px;
+        h1 {
+            color: #d6d6d6;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            width: 300px;
             padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border: 1px solid #000000;
+            border-radius: 5px;
+            background-color: #686868;
         }
 
-        input {
-            padding: 10px;
-            margin: 10px;
-            width: 200px;
+        label {
+            margin-bottom: 5px;
         }
 
-        button {
-            padding: 10px 20px;
-            margin: 10px;
+        input[type="number"], select {
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        button[type="submit"] {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 3px;
             cursor: pointer;
+        }
+
+        h2 {
+            color: #929292;
+            margin-top: 20px;
+        }
+
+        p {
+            color: #929292;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Hydration Reminder</h1>
-        <p id="message">Stay hydrated!</p>
-        <input type="number" id="interval" placeholder="Set interval (minutes)" min="1">
-        <button id="start">Start Reminder</button>
-        <button id="stop" disabled>Stop Reminder</button>
+    <h1>Hydration Reminder</h1>
+    <form id="hydrationForm">
+        <label for="weight">Weight (in pounds):</label>
+        <input type="number" id="weight" name="weight" required placeholder="Enter Weight">
+        
+        <label for="activityLevel">Activity Level:</label>
+        <select id="activityLevel" name="activityLevel" required>
+            <option value="" disabled selected>Select Activity Level</option>
+            <option value="low">Low Activity Level</option>
+            <option value="mid">Mid Activity Level</option>
+            <option value="high">High Activity Level</option>
+        </select>
+        
+        <button id="calculateBtn" type="submit">Calculate</button>
+    </form> 
+
+    <div id="result" style="display: none;">
+        <h2>Result:</h2>
+        <p>Required Water Intake: <span id="waterIntake"></span> oz</p>
     </div>
-    
+
+    <p id="error" style="color: red;"></p>
+
     <py-script>
-    import asyncio
-    import js
+        from pyscript import Element
 
-    async def remind():
-        while True:
-            interval = js.document.getElementById('interval').value
-            if interval.isdigit() and int(interval) > 0:
-                await asyncio.sleep(int(interval) * 60)
-                js.alert("Time to drink some water!")
+        def reset_result():
+            """Function to reset the result display and error message."""
+            Element("result").element.style.display = "none"  # Hide the result section
+            Element("error").element.innerHTML = ""  # Clear error message
+            Element("waterIntake").element.innerHTML = ""
+
+        def calculate_hydration(event):
+            event.preventDefault()  # Prevent the form from refreshing the page
+            reset_result()  # Reset any previous result when recalculating
+            try:
+                weight = float(Element("weight").element.value)
+                activity_level = Element("activityLevel").element.value
+            except ValueError:
+                Element("error").element.innerHTML = "Please enter a valid input."
+                return
+
+            # Calculate required water intake based on activity level
+            if activity_level == "low":
+                hydration_time = 30  # 30 minutes
+            elif activity_level == "mid":
+                hydration_time = 60  # 1 hour
+            elif activity_level == "high":
+                hydration_time = 90  # 1 hour & 30 minutes
             else:
-                js.alert("Please enter a valid interval in minutes.")
-                break
+                Element("error").element.innerHTML = "Please select a valid activity level."
+                return
 
-    def start_reminder():
-        asyncio.ensure_future(remind())
+            # Calculate required water intake in ounces
+            required_water = (hydration_time / 60) * 12 * (weight / 2)  # 12 oz per hour, adjust based on weight
+            Element("waterIntake").element.innerHTML = f"{required_water:.2f}"
 
-    def stop_reminder():
-        # TODO: Implement stopping the reminder
-        pass
+            # Show result section
+            Element("result").element.style.display = "block"
 
-    js.document.getElementById('start').addEventListener('click', start_reminder)
-    js.document.getElementById('stop').addEventListener('click', stop_reminder)
+        Element("calculateBtn").element.onclick = calculate_hydration
     </py-script>
 </body>
 </html>
