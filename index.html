@@ -106,14 +106,13 @@
     <script>
         // JavaScript code for popup
         function showPopup() {
-            // Set the popup content to display "Hello World" five times
             document.getElementById("popupContent").innerHTML = `
                 <span class="close" onclick="closePopup()">&times;</span>
                 How to know your Activity Level?<br>
                 None - No exercise or physical activities today<br>
-                Low Activity Level - 30 minutes of exercise or physical activies today<br>
-                Moderate Activity Level - 60 minutes of exercise or physical activies today<br>
-                High Activity Level - 90 minutes of exercise or physical activies today
+                Low Activity Level - 30 minutes of exercise or physical activities today<br>
+                Moderate Activity Level - 60 minutes of exercise or physical activities today<br>
+                High Activity Level - 90 minutes of exercise or physical activities today
             `;
             document.getElementById("popup").style.display = "block";
         }
@@ -133,7 +132,7 @@
         <select id="activityLevel" name="activityLevel" required>
             <option value="" disabled selected>Select Activity Level</option>
             <option value="none">None</option>
-            <option value="low">Low Activity Level</option >
+            <option value="low">Low Activity Level</option>
             <option value="moderate">Moderate Activity Level</option>
             <option value="high">High Activity Level</option>
         </select>
@@ -169,6 +168,9 @@
             reset_result()  # Reset any previous result when recalculating
             try:
                 weight = float(Element("weight").element.value)
+                if weight <= 0:
+                    Element("error").element.innerHTML = "Invalid Input! Only Numbers 1 and Above!"
+                    return
                 activity_level = Element("activityLevel").element.value
             except ValueError:
                 Element("error").element.innerHTML = "Please enter a valid input."
