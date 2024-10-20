@@ -59,6 +59,46 @@
         p {
             color: #929292;
         }
+
+        /* Popup styles */
+        .popup {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%; /* Full width */
+            height: 100%; /* Full height */
+            background-color: rgba(0,0,0,0.5); /* Black w/ opacity */
+        }
+
+        .popup-content {
+            background-color: #fefefe;
+            margin: 15% auto; /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; /* Could be more or less, depending on screen size */
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .info-icon {
+            cursor: pointer;
+            margin-left: 5px;
+            color: #fff;
+        }
     </style>
 </head>
 <body>
@@ -68,11 +108,12 @@
         <input type="number" id="weight" name="weight" required placeholder="Enter Weight">
         
         <label for="activityLevel">Activity Level:</label>
+        <span class="info-icon" onclick="showPopup()">❓</span>
         <select id="activityLevel" name="activityLevel" required>
             <option value="" disabled selected>Select Activity Level</option>
             <option value="none">None</option>
             <option value="low">Low Activity Level</option>
-            <option value="mid">Mid Activity Level</option>
+            <option value="moderate">Moderate Activity Level</option>
             <option value="high">High Activity Level</option>
         </select>
         
@@ -86,11 +127,19 @@
 
     <p id="error" style="color: red;"></p>
 
+    <!-- Popup for info -->
+    <div id="popup" class="popup">
+        <div class="popup-content">
+            <span class="close" onclick="closePopup()">&times;</span>
+            <p>Hello World</p>
+        </div>
+    </div>
+
     <py-script>
         from pyscript import Element
 
         def reset_result():
-            """Function to reset the result display and error message."""
+            """ Function to reset the result display and error message."""
             Element("result").element.style.display = "none"  # Hide the result section
             Element("error").element.innerHTML = ""  # Clear error message
             Element("waterIntake").element.innerHTML = ""
@@ -115,7 +164,7 @@
                 hydration_time = 30  # 30 minutes
                 additional_water = (hydration_time / 30) * 12  # 12 oz for every 30 minutes
                 required_water = base_required_water + additional_water
-            elif activity_level == "mid":
+            elif activity_level == "moderate":
                 hydration_time = 60  # 1 hour
                 additional_water = (hydration_time / 30) * 12
                 required_water = base_required_water + additional_water
@@ -133,6 +182,15 @@
             Element("result").element.style.display = "block"
 
         Element("calculateBtn").element.onclick = calculate_hydration
+
+        // JavaScript code for popup
+        function showPopup() {
+            document.getElementById("popup").style.display = "block";
+        }
+
+        function closePopup() {
+            document.getElementById("popup").style.display = "none";
+        }
     </py-script>
 </body>
 </html>
