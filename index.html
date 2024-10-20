@@ -78,11 +78,14 @@
             padding: 20px;
             border: 1px solid #888;
             width: 40%; /* Could be more or less, depending on screen size */
+            position: relative; /* Position relative for close button */
         }
 
         .close {
             color: #aaa;
-            float: right;
+            position: absolute; /* Position absolute for close button */
+            right: 10px; /* Align to the right */
+            top: 10px; /* Align to the top */
             font-size: 28px;
             font-weight: bold;
         }
@@ -105,11 +108,12 @@
         function showPopup() {
             // Set the popup content to display "Hello World" five times
             document.getElementById("popupContent").innerHTML = `
-                Hello World<br>
-                Hello World<br>
-                Hello World<br>
-                Hello World<br>
-                Hello World
+                <span class="close" onclick="closePopup()">&times;</span>
+                How to know your Activity Level?<br>
+                None - No exercise or physical activities in the day<br>
+                Low Activity Level - 30 minutes of exercise or physical activies<br>
+                Moderate Activity Level - 60 minutes of exercise or physical activies<br>
+                High Activity Level - 90 minutes of exercise or physical activies
             `;
             document.getElementById("popup").style.display = "block";
         }
@@ -129,7 +133,7 @@
         <select id="activityLevel" name="activityLevel" required>
             <option value="" disabled selected>Select Activity Level</option>
             <option value="none">None</option>
-            <option value="low">Low Activity Level</option>
+            <option value="low">Low Activity Level</option >
             <option value="moderate">Moderate Activity Level</option>
             <option value="high">High Activity Level</option>
         </select>
@@ -147,7 +151,6 @@
     <!-- Popup for info -->
     <div id="popup" class="popup">
         <div class="popup-content" id="popupContent">
-            <span class="close" onclick=" closePopup()">&times;</span>
         </div>
     </div>
 
