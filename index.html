@@ -123,7 +123,6 @@
 
         // JavaScript code for the hydration reminder popup
         function showHydrationPopup (message) {
-            console.log("Showing hydration popup...");
             document.getElementById("hydrationPopupContent").innerHTML = `
                 <span class="close" onclick="closeHydrationPopup()">&times;</span>
                 ${message}
@@ -136,12 +135,10 @@
         }
 
         function startHydrationReminders(requiredWater) {
-            console.log("Starting hydration reminders...");
             const waterPerHour = (requiredWater / 12).toFixed(2);
             let count = 0;
             const interval = setInterval(() => {
                 if (count < 12) {
-                    console.log("Showing hydration reminder...");
                     showHydrationPopup(`Drink ${waterPerHour} oz of Water! Stay Hydrated!`);
                     count++;
                 } else {
@@ -235,7 +232,7 @@
 
             Element("waterIntake").element.innerHTML = f"{required_water:.2f}"
 
-            // Show result section
+            # Show result section
             Element("result").element.style.display = "block"
 
             startHydrationReminders(required_water)
