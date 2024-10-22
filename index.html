@@ -122,12 +122,12 @@
         }
 
         // JavaScript code for the hydration reminder popup
-        function showHydrationPopup(message) {
+        function showHydrationPopup (message) {
             document.getElementById("hydrationPopupContent").innerHTML = `
                 <span class="close" onclick="closeHydrationPopup()">&times;</span>
                 ${message}
             `;
-            document .getElementById("hydrationPopup").style.display = "block";
+            document.getElementById("hydrationPopup").style.display = "block";
         }
 
         function closeHydrationPopup() {
