@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hydration Reminder</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #e0f7fa; 
+            color: #004d40; 
+        }
+        h1 {
+            color: #00796b; 
+            margin-bottom: 20px;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            width: 300px;
+            padding: 20px;
+            border: 2px solid #00796b; 
+            border-radius: 10px;
+            background-color: #ffffff; 
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        label {
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="number"], select {
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #00796b; 
+            border-radius: 5px;
+        }
+        button[type="submit"] {
+            padding: 10px 15px;
+            background-color: #00796b; 
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button[type="submit"]:hover {
+            background-color: #004d40; 
+        }
+        h2 {
+            color: #00796b;
+            margin-top: 20px;
+        }
+        .result {
+            color: black; 
+        }
+        .error {
+            color: #d 32f2f; 
+        }
+        .popup {
+            display: none; 
+            position: fixed; 
+            z-index: 1; 
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%; 
+            background-color: rgba(0,0,0,0.5);
+        }
+        .popup-content {
+            background-color: #ffffff; 
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #00796b;
+            width: 40%; 
+            position: relative; 
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .close {
+            color: #aaa;
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            font-size: 28px;
+            font-weight: bold;
+        }
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .info-icon {
+            cursor: pointer; 
+            margin-left: 5px;
+            color: #00796b;
+        }
+    </style>
+</head>
+<body>
+    <h1>Hydration Reminder</h1>
+    <form method="POST">
+        <label for="weight">Weight (in pounds):</label>
+        <input type="number" id="weight" name="weight" required placeholder="Enter Weight">
+        
+        <label for="activityLevel">Activity Level: <span class="info-icon" onclick="showInfoPopup()">❓</span></label>
+        <select id="activityLevel" name="activityLevel" required>
+            <option value="" disabled selected>Select Activity Level</option>
+            <option value="none">None</option>
+            <option value="low">Low Activity Level</option>
+            <option value="moderate">Moderate Activity Level</option>
+            <option value="high">High Activity Level </option>
+        </select>
+        
+        <button type="submit">Calculate</button>
+    </form>
+
+    {% if result %}
+        <h2>Result:</h2>
+        <p class="{% if error %}error{% else %}result{% endif %}">{{ result | safe }}</p>
+    {% endif %}
+
+    {% if error %}
+        <p class="error">{{ error }}</p>
+    {% endif %}
+
+    <!-- Popup for info -->
+    <div id="popup" class="popup">
+        <div class="popup-content" id="popupContent">
+            <span class="close" onclick="closeInfoPopup()">&times;</span>
+            How to know your Activity Level?<br>
+            None - No exercise or physical activities<br>
+            Low Activity Level - 30 minutes of exercise or physical activities<br>
+            Moderate Activity Level - 60 minutes of exercise or physical activities<br>
+            High Activity Level - 90 minutes of exercise or physical activities
+        </div>
+    </div>
+
+    <!-- Popup for hydration reminder -->
+    <div id="hydration-popup" class="popup">
+        <div class="popup-content" id="hydrationPopupContent">
+            <span class="close" onclick="closeHydrationPopup()">&times;</span>
+            {% if notification_message %}
+                {{ notification_message }}
+            {% endif %}
+        </div>
+    </div>
+
+    <script>
+        function showInfoPopup() {
+            document.getElementById("popup").style.display = "block";
+        }
+
+        function closeInfoPopup() {
+            document.getElementById("popup").style.display = "none";
+        }
+
+        function showHydrationPopup() {
+            document.getElementById("hydration-popup").style.display = "block";
+        }
+
+        function closeHydrationPopup() {
+            document.getElementById("hydration-popup").style.display = "none";
+        }
+
+        // Set up a timer to trigger the hydration popup every hour for 12 hours
+        let hydrationTimer = setInterval(showHydrationPopup, 60000); // 3600000 milliseconds = 1 hour & 60000 milliseconds = 1 minute for testing
+        let hydrationCount = 0;
+        function resetHydrationTimer() {
+            hydrationCount++;
+            if (hydrationCount >= 12) {
+                clearInterval(hydrationTimer);
+            }
+        }
+        document.getElementById("hydration-popup").addEventListener("click", resetHydrationTimer);
+    </script>
+</body>
+</html>
